@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<!--COPYRIGHT Professional Audio Visual Limited-->
+<html>
+  <head>
+    <title>Vehicle Manager</title>
+    <style>
+      .center{
+        text-align: center;
+      }
+      .sw{
+        width: 100%;
+      }
+      p{
+        display: inline;
+        width: auto;
+      }
+      .full{
+        display: block;
+      }
+      .swc{
+        width: 100%;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sw">
+      <h1 class="center">Vehicle Manager</h1>
+    </div>
+    <div class="sw">
+      <h3>Vehicle Name</h3>
+      <input id="name" type="text" value="">
+    </div>
+    <div class="sw">
+      <input id="cup" type="checkbox">
+      <p>Cupholders Clean</p>
+    </div>
+    <div class="sw">
+      <input id="cabfloor" type="checkbox">
+      <p>Cabin Floor Clean</p>
+    </div>
+    <div class="sw">
+      <input id="dash" type="checkbox">
+      <p>Dashboard Clean</p>
+    </div>
+    <div class="sw">
+      <input id="seat" type="checkbox">
+      <p>Seats Clean</p>
+    </div>
+    <div class="sw">
+      <input id="back" type="checkbox">
+      <p>Back Floor Clean</p>
+    </div>
+    <div class="sw">
+      <input id="fulltank" type="checkbox">
+      <p>Gas is Full</p>
+    </div>
+    <div class="sw">
+      <input id="halftank" type="checkbox">
+      <p>Gas is Half Full</p>
+    </div>
+    <div class="sw">
+      <input id="quartertank" type="checkbox">
+      <p>Gas is Quarter Full</p>
+    </div>
+    <div class="sw">
+      <input id="notank" type="checkbox">
+      <p>Gas Less than Quarter Full</p>
+    </div>
+    <div class="sw">
+      <input id="mech" type="checkbox">
+      <p>No Mechanical/Electrical Issues</p>
+    </div>
+    <div class="sw">
+      <input id="flat" type="checkbox">
+      <p>No Low Pressure Tires</p>
+    </div>
+    <div class="sw">
+      <input id="lights" type="checkbox">
+      <p>No Burntout Lights</p>
+    </div>
+    <div class="sw">
+      <input id="damage" type="checkbox">
+      <p>No Visible External Damage</p>
+    </div>
+    <div class="sw">
+      <h3 class="center">Comments</h3>
+    </div>
+    <div class="sw">
+      <textarea id="comment" rows="4" cols="25"></textarea>
+    </div>
+    <div class="sw">
+      <input type="button" value="Submit" onclick="submit()">
+    </div>
+    <div id="dispcopy" class="swc">
+      <h3 class="center">Copy This</h3>
+      <input type="button" value="Select" class="full" onclick="copywow()">
+      <pre id="copytxt"></pre>
+    </div>
+    <script type="text/javascript">
+      function copywow(){
+        copy = document.getElementById('copytxt');
+        if(window.getSelection && document.createRange){
+          select = window.getSelection();
+          if(select.toString() == ''){
+            window.setTimeout(function(){
+              range = document.createRange();
+              range.selectNodeContents(copy);
+              select.removeAllRanges();
+              select.addRange(range);
+            },1);
+          }
+        } else if (document.selection) {
+          select = document.selection.createRange();
+          if(select.text == ''){
+            range = document.body.createTextRange();
+            range.moveToElementText(copy);
+            range.select();
+          }
+        }
+      }
+      function submit(){
+        good = true;
+        if(document.getElementById('name').value.length <= 0){
+          alert("Enter the Vehicle Name!");
+          document.getElementById('name').style.backgroundColor = 'red';
+          good = false;
+        }
+        else{
+          document.getElementById('name').style.backgroundColor = 'white';
+        }
+        cup = document.getElementById('cup').checked;
+        cabfloor = document.getElementById('cabfloor').checked;
+        dash = document.getElementById('dash').checked;
+        seat = document.getElementById('seat').checked;
+        back = document.getElementById('back').checked;
+        fulltank = document.getElementById('fulltank').checked;
+        halftank = document.getElementById('halftank').checked;
+        quartertank = document.getElementById('quartertank').checked;
+        notank = document.getElementById('notank').checked;
+        mech = document.getElementById('mech').checked;
+        flat = document.getElementById('flat').checked;
+        lights = document.getElementById('lights').checked;
+        damage = document.getElementById('damage').checked
+        comment = document.getElementById('comment').value;
+        if(cup&&cabfloor&&dash&&seat&&back&&mech&&flat&&lights&&damage){
+          if(confirm("Are You Sure?")){}
+          else{
+            good = false;
+          }
+        }
+        else{
+          if(comment.length <= 0){
+            alert("You need to comment on anything wrong!");
+            document.getElementById('comment').style.backgroundColor = 'red';
+            good = false;
+          }
+          else{
+            document.getElementById('comment').style.backgroundColor = 'white';
+          }
+        }
+        unique = true;
+        taken = false;
+        if(fulltank === true){
+          if(taken === false){
+            taken = true;
+          } else{
+            unique = false;
+          }
+        }
+        if(halftank === true){
+          if(taken === false){
+            taken = true;
+          } else{
+            unique = false;
+          }
+        }
+        if(quartertank === true){
+          if(taken === false){
+            taken = true;
+          } else{
+            unique = false;
+          }
+        }
+        if(notank === true){
+          if(taken === false){
+            taken = true;
+          } else{
+            unique = false;
+          }
+        }
+        if(unique === false||taken === false){
+          alert("Select One Gas Option!");
+          good = false;
+        }
+        if(good === true){
+          bodytext = "The vehicle "+document.getElementById('name').value+" has no concerns.";
+          if(cup&&cabfloor&&dash&&seat&&back&&mech&&flat&&lights&&damage&&fulltank){
+            bodytext = bodytext + "\n" + comment;
+          }
+          else{
+            bodytext = "The vehicle "+document.getElementById('name').value+" has cause for concern.\n";
+            if(cup===false){
+              bodytext = bodytext+"The cupholders are not clean.\n";
+            }
+            if(cabfloor===false){
+              bodytext = bodytext+"The cab floor is not clean.\n";
+            }
+            if(dash===false){
+              bodytext = bodytext+"The dashboard is not clean.\n";
+            }
+            if(seat===false){
+              bodytext = bodytext+"The seats are not clean.\n";
+            }
+            if(back===false){
+              bodytext = bodytext+"The storage area is not clean.\n";
+            }
+            if(mech===false){
+              bodytext = bodytext+"There are mechanical/electrical issues.\n";
+            }
+            if(flat===false){
+              bodytext = bodytext+"The tires are not full.\n";
+            }
+            if(lights===false){
+              bodytext = bodytext+"One or more of the lights are out.\n";
+            }
+            if(damage===false){
+              bodytext = bodytext+"There is visible damage on the outside of the vehicle.\n";
+            }
+            if(halftank===true){
+              bodytext = bodytext+"There is half a tank of gas.\n";
+            }
+            if(quartertank===true){
+              bodytext = bodytext+"There is a quarter tank of gas.\n";
+            }
+            if(notank===true){
+              bodytext = bodytext+"The vehicle is low on gas.\n";
+            }
+            bodytext = bodytext + comment;
+          }
+          check = Math.round(Math.sqrt(bodytext.length));
+          bodytext = bodytext + "\n" +String(check);
+          urlbodytext = encodeURIComponent(bodytext);
+          os = navigator.platform;
+          if(os.indexOf('Android') >= 0||os.indexOf('Linux') >= 0||os.indexOf('null') >= 0){
+            location.href = 'sms:13065511402?body='+urlbodytext;
+          } else if(os.indexOf('iPhone') >= 0||os.indexOf('iPod') >= 0||os.indexOf('iPad') >= 0){
+            location.href = 'sms:13065511402;body='+urlbodytext;
+          } else {
+            document.getElementById('dispcopy').style.display = 'block';
+            document.getElementById('copytxt').innerHTML = bodytext;
+            copywow();
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
