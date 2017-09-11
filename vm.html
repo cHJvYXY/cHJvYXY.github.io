@@ -245,7 +245,9 @@
           if(os.indexOf('Android') >= 0||os.indexOf('Linux') >= 0||os.indexOf('null') >= 0){
             location.href = 'sms:13065511402?body='+urlbodytext;
           } else if(os.indexOf('iPhone') >= 0||os.indexOf('iPod') >= 0||os.indexOf('iPad') >= 0){
-            location.href = 'sms:13065511402;body='+urlbodytext;
+            document.getElementById('dispcopy').style.display = 'block';
+            document.getElementById('copytxt').innerHTML = bodytext;
+            copywow();
           } else {
             document.getElementById('dispcopy').style.display = 'block';
             document.getElementById('copytxt').innerHTML = bodytext;
